@@ -27,10 +27,10 @@ export savechunksize=$savechunksize
 export jobname=$JOBID
 export perm=$perm
 
-Rscript SVRbysamplesize.R
+#Rscript SVRbysamplesize.R
 #Rscript SVRbysamplesize.vertex.R
 #Rscript SVRbysamplesize.allmeasures.R
 #Rscript SVRbysamplesize.vertex.allmeasures.R
 
 #Rscript SVRbysamplesize.vertex.sensfullsample.R
-#Rscript SVRbysamplesize.sensfullsample.R
+Rscript SVRbysamplesize.sensfullsample.R

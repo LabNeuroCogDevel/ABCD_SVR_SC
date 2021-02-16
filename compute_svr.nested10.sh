@@ -3,7 +3,7 @@
 #SBATCH -N 1 
 #SBATCH -p RM-shared
 #SBATCH --ntasks-per-node 6 
-#SBATCH -t 00:10:00
+#SBATCH -t 07:00:00
 #
 # expects BATCH variable to exist 
 #
@@ -27,10 +27,10 @@ export savechunksize=$savechunksize
 export jobname=$JOBID
 export perm=$perm
 
-Rscript SVRbysamplesize.R
+#Rscript SVRbysamplesize.R
 #Rscript SVRbysamplesize.vertex.R
 #Rscript SVRbysamplesize.allmeasures.R
 #Rscript SVRbysamplesize.vertex.allmeasures.R
 
-#Rscript SVRbysamplesize.vertex.sensfullsample.R
+Rscript SVRbysamplesize.vertex.sensfullsample.R
 #Rscript SVRbysamplesize.sensfullsample.R
