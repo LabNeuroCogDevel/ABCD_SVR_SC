@@ -7,7 +7,7 @@ DATADIR=/pylon5/ibz3a7p/bct16/data
 #subs="300 1000 1964"
 #subs="1814"
 subs="1964"
-NJOBS=100  ###number of jobs in parallel
+NJOBS=1  ###number of jobs in parallel
 #COUNTER=0
 #ys="abcd_cbcls01_cbcl_scr_syn_totprob_t abcd_tbss01_nihtbx_totalcomp_agecorrected"
 ys="abcd_tbss01_nihtbx_totalcomp_agecorrected"
@@ -15,7 +15,7 @@ ys="abcd_tbss01_nihtbx_totalcomp_agecorrected"
 #props=$(seq 0.1 0.1 1)
 #props=.9
 echo "props $props"
-export savedir="/home/bct16/data/PCA5_20200814notune_perm/"
+export savedir="/home/bct16/data/fullsamplesensivity_20200819/"
 export niter=1 ###switched to running one iteration per job
 #export y="abcd_ps01_pea_wiscv_tss"
 #export y="abcd_cbcls01_cbcl_scr_syn_totprob_t"
@@ -29,7 +29,7 @@ export propvarretain=".5"
 export tune=0
 export tunefolds=0
 export savechunksize=1
-export perm=1
+export perm=0
 
 samplesize=$subs
 for samplesize in $subs; do
@@ -55,7 +55,7 @@ export propvarretain=$pv
 	export JOBID=$JOBID
 	
 
-	outfilename="${savedir}/PCA.${pv}.NOTUNE.$JOBID.${y}_perm.n${samplesize}.chunk1.rdata"	
+	outfilename="${savedir}/PCA.${pv}.TUNE.$JOBID.${y}.n${samplesize}.chunk1.rdata"	
 
 
 	# check if we already have an output file
@@ -75,7 +75,7 @@ export propvarretain=$pv
 	# submit job to batch queue
 	echo "$COUNTER: $samplesize $iter $outfilename "
 	
-	sbatch -o $logfile -e $logfile -J "$JOBID" compute_svr.sh
+	sbatch -o $logfile -e $logfile -J "$JOBID" compute_svr.fullsens.sh
 
 	#[ $COUNTER -ge $NJOBS ] && exit 1
 	

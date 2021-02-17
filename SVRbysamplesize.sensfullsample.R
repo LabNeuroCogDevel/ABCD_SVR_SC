@@ -34,9 +34,14 @@ print(tune)
 print(tunefolds)
 print(savechunksize)
 print(perm)
-resample=TRUE
+#resample=TRUE
+
 load("/home/bct16/data/traindatadf.Rdata")
 load("/home/bct16/data/testdatadf.Rdata")
+
+resample<-FALSE
+
+gc()
 
 source("/home/bct16/scripts/ABCD_MP_SVR/0x_svrfuncs.R")
 xcols<-grep("edge",names(traindf),value=TRUE)

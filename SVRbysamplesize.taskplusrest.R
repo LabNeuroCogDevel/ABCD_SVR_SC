@@ -17,6 +17,7 @@ tunefolds<-as.numeric(Sys.getenv("tunefolds"))
 savechunksize<-as.numeric(Sys.getenv("savechunksize"))
 jobname<-as.character(Sys.getenv("jobname"))
 perm<-as.logical(as.numeric(Sys.getenv("perm")))
+restplustask<-as.logical(as.numeric(Sys.getenv("restplustask")))
 
 print(ls())
 print(Sys.time())
@@ -34,9 +35,22 @@ print(tune)
 print(tunefolds)
 print(savechunksize)
 print(perm)
-resample=TRUE
-load("/home/bct16/data/traindatadf.Rdata")
-load("/home/bct16/data/testdatadf.Rdata")
+#resample=TRUE
+
+if (restplustask){
+print("restplus task loading")
+load("/home/bct16/data/traindatadfmatchedsubs.restplustask.Rdata")
+load("/home/bct16/data/testdatadfmatchedsubs.restplustask.Rdata")
+traindf<-traindfrestplustaskmatchedsubs
+testdf<-testdfrestplustaskmatchedsubs
+} else {
+print("matched rest subs loading")
+load("/home/bct16/data/traindatadfmatchedsubs.Rdata")
+load("/home/bct16/data/testdatadfmatchedsubs.Rdata")
+}
+resample<-FALSE
+
+gc()
 
 source("/home/bct16/scripts/ABCD_MP_SVR/0x_svrfuncs.R")
 xcols<-grep("edge",names(traindf),value=TRUE)

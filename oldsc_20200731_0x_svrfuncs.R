@@ -400,14 +400,9 @@ SVR_validationcommonleftout<-function(traindf,testdf,y,xcols,verb=FALSE,tune=FAL
                              testpred<-predict(outlist[[p]]$svmmodel,validationset)
                              return(testpred)
                           })
-   
-   traincorlist<-mclapply(1:length(outlist),mc.cores=validationcores,function(p){outlist[[p]]$cvout$traincor})
-   
-   
    print("building chunkoutput")
    svmlabelsmat<-NA
    testpredlistmat<-do.call(cbind,testpredlist)
-   traincorlistmat<-do.call(cbind,traincorlist)
    if (unifeatselect){
    svmweightsmat<-sapply(outlist,function(p) p$svmweights)
    svmlabelsmat<-do.call(cbind,sapply(outlist,function(p) dimnames(p$svmweights)))
@@ -420,7 +415,7 @@ SVR_validationcommonleftout<-function(traindf,testdf,y,xcols,verb=FALSE,tune=FAL
    row.names(svmweightsmat)<-row.names(outlist[[1]]$pcamodel$rotation)
    }
     
-   chunklist<-list(chunk=currentchunk,itersamplesize=itersamplesize,y=y,tune=tune,unifeatselect=unifeatselect,PCA=PCA,traincors=traincorlistmat,testpreds=testpredlistmat,testyvals=jddatatest[,y],svmweights=svmweightsmat,svmlabelsmat=svmlabelsmat)
+   chunklist<-list(chunk=currentchunk,itersamplesize=itersamplesize,y=y,tune=tune,unifeatselect=unifeatselect,PCA=PCA,testpreds=testpredlistmat,testyvals=jddatatest[,y],svmweights=svmweightsmat,svmlabelsmat=svmlabelsmat)
    if (!file.exists(chunksavenamefile)){save(chunklist,file=chunksavenamefile)}
    rm(list=c("outlist","testpredlist","featureselectlist"))
    gc()
@@ -500,13 +495,6 @@ cors<-svm_warpper_object$wrapperout %>% dplyr::group_by(y,foldname) %>% dplyr::s
 print(cors)
 return(cors)
 }
-
-svr_wrapper_parseloso<-function(svm_warpper_object){
-cors<-svm_warpper_object$wrapperout %>% dplyr::group_by(y) %>% dplyr::summarise(cvcor=cor(cvpred,testyval),cvrsq=rsquared_function(testyval,error))
-print(cors)
-return(cors)
-}
-
 
 
 svm_wrapper_permute<-function(df,ys,xcols,tune,tunefolds,outerfoldcores,tunecores,nperms=1000,foldsummary=TRUE){
